@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InganzoMind | Home</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+    /* full screen banner layout */
+    .hero {
+        height:100vh;
+        width:100%;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        text-align:center;
+        color:#fff;
+        padding:0 20px;
+        background: 
+            linear-gradient(rgba(14,0,40,0.75), rgba(0,0,0,0.75)),
+            url('Inganzo.png') center/cover no-repeat;
+    }
+
+    .hero h1 {
+        font-size:3rem;
+        font-weight:900;
+        text-transform:uppercase;
+        margin-bottom:8px;
+    }
+
+    .tag {
+        font-style:italic;
+        font-size:1.3rem;
+        margin-bottom:20px;
+        opacity:.9;
+    }
+
+    .hero p {
+        max-width:600px;
+        font-size:1.1rem;
+        line-height:1.5rem;
+        opacity:.95;
+    }
+
+    .home-buttons {
+        margin-top:30px;
+        display:flex;
+        gap:20px;
+    }
+
+    .home-buttons a {
+        padding:.8em 2.5em;
+        border-radius:30px;
+        font-weight:600;
+        text-decoration:none;
+        transition:.3s;
+        font-size:1rem;
+    }
+
+    .primary { background:var(--accent-color); color:white; }
+    .primary:hover { background:var(--text-color); }
+    .secondary { border:2px solid white; color:white; }
+    .secondary:hover { background:white; color:#222; }
+
+    nav {
+        width:100%;
+        position:absolute;
+        top:0; left:0;
+        padding:20px 50px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        color:white;
+        z-index:10;
+    }
+
+    .logo { font-size:1.8rem; font-weight:800; }
+    .logo span { color:var(--accent-color); }
+
+    nav ul { display:flex; gap:30px; list-style:none; }
+    nav ul li a {
+        color:white; text-decoration:none; font-weight:500;
+        transition:.3s;
+    }
+    nav ul li a:hover { color:var(--accent-color); }
+
+    @media(max-width:900px){
+        .hero h1{font-size:2.3rem;}
+        .home-buttons{flex-direction:column;}
+        nav ul{display:none;} /* Later add mobile menu */
+    }
+</style>
+
+<script type="module" src="auth.js"></script>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">Inganzo<span>Mind</span></div>
+    <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="#">Notes</a></li>
+        <li><a href="#">Tutors</a></li>
+        <li><a href="#">Discussions</a></li>
+        <li><a id="logoutBtn" style="cursor:pointer;">Logout</a></li>
+    </ul>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <h1>InganzoMind</h1>
+    <div class="tag">Sharing knowledge, building futures</div>
+
+    <p>
+        Join a nationwide learning community where students share notes, find tutors,
+        solve problems, and grow academically. InganzoMind gives students power
+        through collaboration and knowledge.
+    </p>
+
+    <div class="home-buttons">
+        <a class="primary" href="#">Explore Notes</a>
+        <a class="secondary" href="#">Find Tutors</a>
+    </div>
+</section>
+
+<!-- AUTH CHECK + LOGOUT FUNCTION -->
+<script type="module">
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAzzG0s0ohSwvavQP8ZYT6nnYGkke4WtzA",
+    authDomain: "inganzomind.firebaseapp.com",
+    projectId: "inganzomind",
+    storageBucket: "inganzomind.firebasestorage.app",
+    messagingSenderId: "881049543466",
+    appId: "1:881049543466:web:8c5932a06871fdc7967453"
+};
+
+initializeApp(firebaseConfig);
+const auth = getAuth();
+
+// Prevent access without login
+onAuthStateChanged(auth, user => {
+    if(!user){
+        window.location.href = "index.html";
+    }
+});
+
+// Logout button
+document.getElementById("logoutBtn").onclick = function(){
+    signOut(auth).then(()=>{
+        alert("Logged out Successfully");
+        window.location.href="index.html";
+    });
+}
+</script>
+
+</body>
+</html>
+
